@@ -1131,7 +1131,49 @@ h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
 </head>
 <body>
 
-<div class="shell">
+<!-- AUTH OVERLAY -->
+<div id="auth-overlay" style="position:fixed;inset:0;background:#f7f7f6;display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px">
+  <div style="width:100%;max-width:420px">
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;letter-spacing:-1px;margin-bottom:8px">Deutsch<span style="color:#a0a09c;font-weight:400">.app</span></div>
+      <div style="font-size:15px;color:#636360">Learn German. Get certified. For real.</div>
+    </div>
+    <div style="display:flex;gap:0;background:#eeeeec;border-radius:10px;padding:4px;margin-bottom:24px">
+      <button id="auth-tab-register" onclick="switchToRegister()" style="flex:1;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:#0e0e0e;color:white;font-family:Inter,sans-serif">Create account</button>
+      <button id="auth-tab-login" onclick="switchToLogin()" style="flex:1;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;background:transparent;color:#636360;font-family:Inter,sans-serif">Log in</button>
+    </div>
+    <div id="auth-register">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <input id="reg-name" placeholder="Your name" style="padding:13px 16px;border:1px solid #d8d8d5;border-radius:10px;font-size:15px;font-family:Inter,sans-serif;outline:none;background:white">
+        <input id="reg-email" type="email" placeholder="Email address" style="padding:13px 16px;border:1px solid #d8d8d5;border-radius:10px;font-size:15px;font-family:Inter,sans-serif;outline:none;background:white">
+        <select id="reg-lang" style="padding:13px 16px;border:1px solid #d8d8d5;border-radius:10px;font-size:15px;font-family:Inter,sans-serif;outline:none;background:white;color:#0e0e0e">
+          <option value="">My native language...</option>
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="tr">Turkish</option>
+          <option value="ar">Arabic</option>
+          <option value="ru">Russian</option>
+          <option value="pl">Polish</option>
+          <option value="fr">French</option>
+          <option value="it">Italian</option>
+          <option value="other">Other</option>
+        </select>
+        <div id="reg-error" style="font-size:13px;color:#c1121f;min-height:16px"></div>
+        <button onclick="submitRegister()" style="padding:14px;background:#0e0e0e;color:white;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">Start learning →</button>
+      </div>
+    </div>
+    <div id="auth-login" style="display:none">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <input id="login-email" type="email" placeholder="Your email address" style="padding:13px 16px;border:1px solid #d8d8d5;border-radius:10px;font-size:15px;font-family:Inter,sans-serif;outline:none;background:white">
+        <div id="login-error" style="font-size:13px;color:#c1121f;min-height:16px"></div>
+        <button onclick="submitLogin()" style="padding:14px;background:#0e0e0e;color:white;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">Log in →</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:12px;color:#a0a09c">No subscription required to start · CEFR-aligned certificates</div>
+  </div>
+</div>
+
+<div class="shell" id="main-shell" style="display:none">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
@@ -1144,11 +1186,15 @@ h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
       <button class="nav-item active" onclick="nav('home')">
         <span class="ni-icon">🏠</span> Home
       </button>
+      <button class="nav-item" onclick="nav('courses')">
+        <span class="ni-icon">🗂️</span> All Courses
+        <span class="ni-badge">16</span>
+      </button>
       <button class="nav-item" onclick="nav('vocab')">
         <span class="ni-icon">🃏</span> Flashcards
       </button>
       <button class="nav-item" onclick="nav('lessons')">
-        <span class="ni-icon">📖</span> Lessons
+        <span class="ni-icon">📖</span> Grammar Lessons
       </button>
       <button class="nav-item" onclick="nav('wordgame')">
         <span class="ni-icon">🎮</span> Word Game
@@ -1185,6 +1231,17 @@ h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
         <span class="ni-icon">🤖</span> AI Tutor
         <span class="ni-badge">New</span>
       </button>
+      <button class="nav-item" onclick="nav('certificates')">
+        <span class="ni-icon">🎓</span> Certificates
+      </button>
+    </div>
+
+    <div class="sidebar-section" style="margin-top:auto">
+      <div style="background:rgba(255,255,255,0.06);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:500;color:white" id="user-name-display">—</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35)">Level <span id="user-level-display">A1</span></div>
+      </div>
+      <button onclick="logout()" style="width:100%;padding:8px;background:none;border:none;color:rgba(255,255,255,0.3);font-size:12px;cursor:pointer;text-align:left;font-family:Inter,sans-serif">Log out</button>
     </div>
 
     <div class="sidebar-footer">
@@ -1289,13 +1346,25 @@ h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
 
         <div class="section-title">Modules</div>
         <div class="module-grid">
+          <div class="module-card c-accent" onclick="nav('courses')">
+            <div class="module-icon">🗂️</div>
+            <h3>All Courses</h3>
+            <p>16 real-world tracks. Survival, career, professional German. Pick your situation.</p>
+            <div class="module-meta">A1 → C2 · 16 tracks</div>
+          </div>
           <div class="module-card c-green" onclick="nav('diagnostic')">
             <div class="module-icon">🎯</div>
             <h3>Full Diagnostic</h3>
             <p>6-module test that reveals your real level. Listening, grammar, writing, speaking.</p>
             <div class="module-meta">~20 min · Honest</div>
           </div>
-          <div class="module-card c-blue" onclick="nav('braindump')">
+          <div class="module-card c-blue" onclick="nav('aitutor')">
+            <div class="module-icon">🤖</div>
+            <h3>AI Tutor — Klaus</h3>
+            <p>Real-time corrections, grammar drills, scenarios, vocab. Speaks German back to you.</p>
+            <div class="module-meta">Always on · 6 modes</div>
+          </div>
+          <div class="module-card c-amber" onclick="nav('braindump')">
             <div class="module-icon">🧠</div>
             <h3>Brain Dump</h3>
             <p>10-min word flood + speaking dump. Shows what's actually in your head.</p>
@@ -1319,11 +1388,11 @@ h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
             <p>Cases, articles, verb forms, word order. No mercy.</p>
             <div class="module-meta">10 q's · Core skills</div>
           </div>
-          <div class="module-card c-green" onclick="nav('lessons')">
-            <div class="module-icon">📖</div>
-            <h3>Lessons</h3>
-            <p>Structured A2 lessons: cases, Perfekt, modal verbs, word order rules.</p>
-            <div class="module-meta">Self-paced · Deep</div>
+          <div class="module-card c-green" onclick="nav('certificates')">
+            <div class="module-icon">🎓</div>
+            <h3>Certificates</h3>
+            <p>CEFR-aligned certificates. Pass a level test, download a real PDF.</p>
+            <div class="module-meta">A1 · A2 · B1 · B2</div>
           </div>
         </div>
 
@@ -1561,6 +1630,33 @@ h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
       </div>
     </div>
 
+    <!-- ── COURSES ── -->
+    <div class="page" id="page-courses">
+      <div class="topbar">
+        <div class="topbar-title">All Courses</div>
+        <div class="xp-pill">⚡ <span id="courses-xp">0</span> XP</div>
+      </div>
+      <div class="page-content" id="courses-content"></div>
+    </div>
+
+    <!-- ── COURSE DETAIL ── -->
+    <div class="page" id="page-course-detail">
+      <div class="topbar">
+        <button class="btn-secondary" onclick="nav('courses')" style="font-size:13px;padding:8px 14px">← All Courses</button>
+        <div class="xp-pill">⚡ <span id="cd-xp">0</span> XP</div>
+      </div>
+      <div class="page-content" id="course-detail-content"></div>
+    </div>
+
+    <!-- ── CERTIFICATES ── -->
+    <div class="page" id="page-certificates">
+      <div class="topbar">
+        <div class="topbar-title">Certificates</div>
+        <div class="xp-pill">⚡ <span id="cert-xp">0</span> XP</div>
+      </div>
+      <div class="page-content" id="cert-content"></div>
+    </div>
+
   </main>
 </div>
 
@@ -1569,13 +1665,22 @@ h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
 <script src="data.js"></script>
 <script src="app.js"></script>
 <script src="ai-tutor.js"></script>
+<script src="auth.js"></script>
+<script src="courses.js"></script>
 <script>
-// Init AI tutor when that page is navigated to
 const _origNav = nav;
 nav = function(page) {
   _origNav(page);
   if (page === 'aitutor' && AI.history.length === 0) initAITutor();
+  if (page === 'certificates') initCertificates();
+  if (page === 'courses') initCourses();
+  if (AUTH.user) saveUserProgress();
+  ['courses-xp','cert-xp','cd-xp'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = state.xp;
+  });
 };
+window.addEventListener('load', () => { initAuth(); });
 </script>
 
 </body>

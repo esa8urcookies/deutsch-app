@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutsch — German Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0e0e0e;
+  --white: #ffffff;
+  --gray-50: #f7f7f6;
+  --gray-100: #eeeeec;
+  --gray-200: #d8d8d5;
+  --gray-400: #a0a09c;
+  --gray-600: #636360;
+  --gray-800: #2a2a28;
+  --green: #2d6a4f;
+  --green-light: #d8f3dc;
+  --red: #c1121f;
+  --red-light: #ffe0e3;
+  --amber: #b45309;
+  --amber-light: #fef3c7;
+  --blue: #1d4ed8;
+  --blue-light: #dbeafe;
+  --accent: #3d5a80;
+  --accent-light: #e0eaff;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--gray-50);
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
+
+/* ─── LAYOUT ─── */
+.shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  background: var(--black);
+  color: var(--white);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo-mark {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+
+.logo-mark span { color: rgba(255,255,255,0.35); font-weight: 400; }
+
+.sidebar-section {
+  padding: 16px 12px 8px;
+}
+
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  padding: 0 8px;
+  margin-bottom: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item:hover { background: rgba(255,255,255,0.07); color: var(--white); }
+.nav-item.active { background: rgba(255,255,255,0.12); color: var(--white); }
+.nav-item .ni-icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-item .ni-badge {
+  margin-left: auto;
+  background: var(--accent);
+  color: var(--white);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.streak-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+}
+
+.streak-pill .streak-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+/* ─── MAIN ─── */
+.main {
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── TOP BAR ─── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px 0;
+}
+
+.topbar-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.xp-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--amber-light);
+  color: var(--amber);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+/* ─── HOME PAGE ─── */
+.home-content { padding: 24px 32px 40px; }
+
+.level-banner {
+  background: var(--black);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.level-banner-text h2 {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.level-banner-text .level-name {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.level-banner-text .level-sub { font-size: 14px; color: rgba(255,255,255,0.5); }
+
+.level-ring {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.level-ring svg { transform: rotate(-90deg); }
+.ring-bg2 { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 6; }
+.ring-fg2 { fill: none; stroke: #fff; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+.ring-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.ring-center .pct { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: #fff; }
+.ring-center .pct-lbl { font-size: 9px; color: rgba(255,255,255,0.4); }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+}
+
+.stat-card .stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 2px;
+}
+
+.stat-card .stat-lbl { font-size: 12px; color: var(--gray-400); }
+
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.module-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.module-card:hover { border-color: var(--gray-200); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.module-card.c-green::before { background: var(--green); }
+.module-card.c-blue::before { background: var(--blue); }
+.module-card.c-accent::before { background: var(--accent); }
+.module-card.c-amber::before { background: var(--amber); }
+.module-card.c-red::before { background: var(--red); }
+
+.module-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.module-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.module-card p {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+.module-card .module-meta {
+  margin-top: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray-400);
+}
+
+/* ─── DAILY PLAN ─── */
+.daily-plan {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.plan-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-100);
+  cursor: pointer;
+}
+
+.plan-item:last-child { border-bottom: none; }
+
+.plan-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-200);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+
+.plan-check.done { background: var(--green); border-color: var(--green); color: white; }
+
+.plan-item-text { flex: 1; }
+.plan-item-text strong { font-size: 14px; font-weight: 500; display: block; }
+.plan-item-text span { font-size: 12px; color: var(--gray-400); }
+.plan-mins { font-size: 12px; color: var(--gray-400); }
+
+/* ─── INNER PAGES ─── */
+.page-content { padding: 24px 32px 60px; }
+
+/* ─── VOCAB FLASHCARDS ─── */
+.flashcard-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.flashcard {
+  width: 100%;
+  max-width: 500px;
+  min-height: 220px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.flashcard:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+
+.fc-category {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-400);
+  margin-bottom: 16px;
+}
+
+.fc-german {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+
+.fc-type { font-size: 13px; color: var(--gray-400); margin-bottom: 16px; }
+
+.fc-english {
+  font-size: 20px;
+  color: var(--gray-600);
+  display: none;
+}
+
+.fc-english.show { display: block; }
+.fc-hint { font-size: 13px; color: var(--gray-400); }
+.fc-example { font-size: 14px; color: var(--gray-600); font-style: italic; display: none; margin-top: 12px; }
+.fc-example.show { display: block; }
+
+.fc-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.fc-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--white);
+}
+
+.fc-btn.wrong { background: var(--red-light); border-color: var(--red); color: var(--red); }
+.fc-btn.correct { background: var(--green-light); border-color: var(--green); color: var(--green); }
+.fc-btn:hover { opacity: 0.85; }
+
+.fc-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--gray-600);
+}
+
+.fc-prog-track {
+  flex: 1;
+  height: 4px;
+  background: var(--gray-100);
+  border-radius: 2px;
+}
+
+.fc-prog-fill {
+  height: 100%;
+  background: var(--black);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+/* ─── QUIZ ─── */
+.quiz-wrap { max-width: 560px; }
+.quiz-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 16px;
+}
+
+.quiz-q {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.quiz-q-sub { font-size: 14px; color: var(--gray-600); margin-bottom: 20px; }
+
+.quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+
+.quiz-opt {
+  padding: 12px 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 14px;
+  cursor: pointer;
+  background: var(--white);
+  text-align: left;
+  transition: all 0.15s;
+  color: var(--black);
+}
+
+.quiz-opt:hover { background: var(--gray-50); border-color: var(--gray-400); }
+.quiz-opt.correct { background: var(--green-light); border-color: var(--green); color: var(--green); }
+.quiz-opt.wrong { background: var(--red-light); border-color: var(--red); color: var(--red); }
+.quiz-opt:disabled { cursor: default; }
+
+.quiz-feedback {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  display: none;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.quiz-feedback.show { display: block; }
+.quiz-feedback.ok { background: var(--green-light); color: var(--green); }
+.quiz-feedback.bad { background: var(--red-light); color: var(--red); }
+
+.prog-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--gray-600);
+}
+
+.prog-track-full {
+  height: 5px;
+  background: var(--gray-100);
+  border-radius: 3px;
+  margin-bottom: 24px;
+}
+
+.prog-fill-full {
+  height: 100%;
+  background: var(--black);
+  border-radius: 3px;
+  transition: width 0.35s;
+}
+
+/* ─── DIAGNOSTIC ─── */
+.diag-intro {
+  max-width: 560px;
+}
+
+.diag-intro h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.diag-intro p { font-size: 15px; color: var(--gray-600); line-height: 1.7; margin-bottom: 24px; }
+
+.module-pills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.mpill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--gray-600);
+}
+
+.mpill .mpill-icon { font-size: 18px; }
+
+/* ─── BRAIN DUMP ─── */
+.dump-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  color: var(--black);
+  background: var(--white);
+  resize: vertical;
+  outline: none;
+  line-height: 1.7;
+  transition: border-color 0.15s;
+}
+
+.dump-textarea:focus { border-color: var(--black); }
+
+/* ─── TIMER ─── */
+.timer-block {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.timer-display {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  color: var(--black);
+  min-width: 110px;
+}
+
+.timer-display.urgent { color: var(--red); }
+
+.timer-info { flex: 1; }
+.timer-info .t-label { font-size: 13px; color: var(--gray-400); margin-bottom: 4px; }
+.timer-info .t-stat { font-size: 22px; font-weight: 600; color: var(--black); }
+
+.timer-prog {
+  height: 5px;
+  background: var(--gray-100);
+  border-radius: 3px;
+  margin-bottom: 16px;
+}
+
+.timer-prog-fill {
+  height: 100%;
+  background: var(--black);
+  border-radius: 3px;
+  transition: width 1s linear;
+}
+
+/* ─── SPEAKING ─── */
+.speak-prompt-box {
+  background: var(--black);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.speak-topic-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 8px;
+}
+
+.speak-topic-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.speak-topic-hint { font-size: 13px; color: rgba(255,255,255,0.45); }
+
+.mic-btn-big {
+  width: 100%;
+  padding: 18px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--white);
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  transition: all 0.15s;
+}
+
+.mic-btn-big:hover { background: var(--gray-50); }
+.mic-btn-big.on { background: var(--red-light); border-color: var(--red); color: var(--red); }
+
+.rate-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.rate-btn {
+  padding: 10px 8px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--white);
+  color: var(--black);
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.rate-btn:hover { background: var(--gray-50); border-color: var(--gray-400); }
+
+/* ─── RESULTS ─── */
+.result-hero {
+  background: var(--black);
+  color: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.result-level {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  margin-bottom: 6px;
+}
+
+.result-level-sub { font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+
+.result-scores {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.rs-item {
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  text-align: center;
+  min-width: 80px;
+}
+
+.rs-item .rs-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.rs-item .rs-lbl { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+.result-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.result-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray-400);
+  margin-bottom: 14px;
+}
+
+.verdict-text {
+  font-size: 15px;
+  color: var(--gray-800);
+  line-height: 1.7;
+}
+
+.gap-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: 14px;
+}
+
+.gap-item:last-child { border-bottom: none; }
+.gap-icon { font-size: 16px; margin-top: 1px; }
+
+/* ─── LESSONS ─── */
+.lesson-list { display: flex; flex-direction: column; gap: 12px; }
+
+.lesson-item {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.lesson-item:hover { border-color: var(--gray-200); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+
+.lesson-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-200);
+  min-width: 32px;
+}
+
+.lesson-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.lesson-info p { font-size: 13px; color: var(--gray-600); }
+
+.lesson-badge {
+  margin-left: auto;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-new { background: var(--accent-light); color: var(--accent); }
+.badge-done { background: var(--green-light); color: var(--green); }
+.badge-locked { background: var(--gray-100); color: var(--gray-400); }
+
+/* ─── WORD GAME ─── */
+.game-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.game-prompt {
+  font-size: 13px;
+  color: var(--gray-400);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.game-word {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  margin-bottom: 8px;
+}
+
+.game-hint { font-size: 14px; color: var(--gray-600); }
+
+.game-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.game-input {
+  flex: 1;
+  padding: 14px 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  background: var(--white);
+  color: var(--black);
+  transition: border-color 0.15s;
+}
+
+.game-input:focus { border-color: var(--black); }
+
+.game-input.correct { border-color: var(--green); background: var(--green-light); }
+.game-input.wrong { border-color: var(--red); background: var(--red-light); }
+
+/* ─── BUTTONS ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 24px;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-primary:hover { opacity: 0.85; }
+.btn-primary:disabled { opacity: 0.35; cursor: default; }
+.btn-primary.full { width: 100%; justify-content: center; padding: 14px; font-size: 15px; border-radius: var(--radius-lg); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: var(--white);
+  color: var(--black);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-secondary:hover { background: var(--gray-50); border-color: var(--gray-400); }
+
+.btn-row { display: flex; gap: 10px; margin-top: 16px; }
+.btn-row.right { justify-content: flex-end; }
+
+/* ─── WORD ORDER DRAG ─── */
+.sentence-zone {
+  min-height: 52px;
+  border: 1px dashed var(--gray-200);
+  border-radius: var(--radius);
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  background: var(--gray-50);
+  align-content: flex-start;
+}
+
+.word-bank-zone {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  min-height: 44px;
+}
+
+.word-chip {
+  padding: 7px 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background: var(--white);
+  color: var(--black);
+  transition: all 0.1s;
+  font-family: 'Inter', sans-serif;
+}
+
+.word-chip:hover { border-color: var(--black); }
+.word-chip.in-slot { background: var(--black); color: var(--white); border-color: var(--black); }
+
+/* ─── WORD CLOUD ─── */
+.word-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.wtag {
+  padding: 5px 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--black);
+  background: var(--white);
+}
+
+.wtag.verb { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+.wtag.noun { background: var(--amber-light); border-color: var(--amber); color: var(--amber); }
+
+/* ─── MISC ─── */
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.tag {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  color: var(--gray-600);
+}
+.tag.active { background: var(--black); color: var(--white); border-color: var(--black); }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray-400);
+}
+
+.empty-state .es-icon { font-size: 40px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; line-height: 1.6; }
+
+.chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip-sm {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+
+.divider { height: 1px; background: var(--gray-100); margin: 20px 0; }
+
+.notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--black);
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1000;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.notification.show { transform: translateY(0); opacity: 1; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .home-content, .page-content { padding: 16px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .module-grid { grid-template-columns: 1fr; }
+  .rate-grid { grid-template-columns: repeat(3, 1fr); }
+  .topbar { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">Deutsch<span>.app</span></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Learn</div>
+      <button class="nav-item active" onclick="nav('home')">
+        <span class="ni-icon">🏠</span> Home
+      </button>
+      <button class="nav-item" onclick="nav('vocab')">
+        <span class="ni-icon">🃏</span> Flashcards
+      </button>
+      <button class="nav-item" onclick="nav('lessons')">
+        <span class="ni-icon">📖</span> Lessons
+      </button>
+      <button class="nav-item" onclick="nav('wordgame')">
+        <span class="ni-icon">🎮</span> Word Game
+        <span class="ni-badge">Fun</span>
+      </button>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Diagnose</div>
+      <button class="nav-item" onclick="nav('diagnostic')">
+        <span class="ni-icon">🎯</span> Full Diagnostic
+      </button>
+      <button class="nav-item" onclick="nav('braindump')">
+        <span class="ni-icon">🧠</span> Brain Dump
+      </button>
+      <button class="nav-item" onclick="nav('speaking')">
+        <span class="ni-icon">🎙️</span> Speaking Drill
+      </button>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Practice</div>
+      <button class="nav-item" onclick="nav('grammar')">
+        <span class="ni-icon">⚡</span> Grammar Quiz
+      </button>
+      <button class="nav-item" onclick="nav('listening')">
+        <span class="ni-icon">👂</span> Listening
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="streak-pill">
+        <span>🔥</span>
+        <div>
+          <div class="streak-num" id="sb-streak">0</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.35)">day streak</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div style="font-size:18px;font-weight:700;color:#fff" id="sb-xp">0</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.35)">XP today</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ── HOME ── -->
+    <div class="page active" id="page-home">
+      <div class="topbar">
+        <div class="topbar-title">Guten Tag, Esai 👋</div>
+        <div class="xp-pill">⚡ <span id="xp-display">0</span> XP</div>
+      </div>
+      <div class="home-content">
+
+        <div class="level-banner">
+          <div class="level-banner-text">
+            <h2>Current level</h2>
+            <div class="level-name" id="home-level">A2</div>
+            <div class="level-sub">Run the diagnostic to get your real score</div>
+          </div>
+          <div class="level-ring">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle class="ring-bg2" cx="40" cy="40" r="34"/>
+              <circle class="ring-fg2" id="level-ring-fg" cx="40" cy="40" r="34"
+                stroke-dasharray="213" stroke-dashoffset="160"/>
+            </svg>
+            <div class="ring-center">
+              <div class="pct" id="level-pct">25%</div>
+              <div class="pct-lbl">to B1</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-num" id="stat-streak">0</div>
+            <div class="stat-lbl">🔥 Day streak</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-words">0</div>
+            <div class="stat-lbl">📚 Words learned</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-correct">0%</div>
+            <div class="stat-lbl">✅ Accuracy</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-xp">0</div>
+            <div class="stat-lbl">⚡ Total XP</div>
+          </div>
+        </div>
+
+        <div class="section-title">Today's plan — 30 min</div>
+        <div class="daily-plan" id="daily-plan">
+          <div class="plan-item" onclick="nav('vocab');markPlan(0)">
+            <div class="plan-check" id="plan-0">✓</div>
+            <div class="plan-item-text">
+              <strong>Vocabulary Flashcards</strong>
+              <span>10 new A2 words with spaced repetition</span>
+            </div>
+            <div class="plan-mins">10 min</div>
+          </div>
+          <div class="plan-item" onclick="nav('grammar');markPlan(1)">
+            <div class="plan-check" id="plan-1"></div>
+            <div class="plan-item-text">
+              <strong>Grammar Quiz</strong>
+              <span>Articles, cases, verb conjugation</span>
+            </div>
+            <div class="plan-mins">8 min</div>
+          </div>
+          <div class="plan-item" onclick="nav('listening');markPlan(2)">
+            <div class="plan-check" id="plan-2"></div>
+            <div class="plan-item-text">
+              <strong>Listening Drill</strong>
+              <span>Hear it, understand it, answer</span>
+            </div>
+            <div class="plan-mins">7 min</div>
+          </div>
+          <div class="plan-item" onclick="nav('speaking');markPlan(3)">
+            <div class="plan-check" id="plan-3"></div>
+            <div class="plan-item-text">
+              <strong>Speaking Practice</strong>
+              <span>Say it out loud — no skipping</span>
+            </div>
+            <div class="plan-mins">5 min</div>
+          </div>
+        </div>
+
+        <div class="section-title">Modules</div>
+        <div class="module-grid">
+          <div class="module-card c-green" onclick="nav('diagnostic')">
+            <div class="module-icon">🎯</div>
+            <h3>Full Diagnostic</h3>
+            <p>6-module test that reveals your real level. Listening, grammar, writing, speaking.</p>
+            <div class="module-meta">~20 min · Honest</div>
+          </div>
+          <div class="module-card c-blue" onclick="nav('braindump')">
+            <div class="module-icon">🧠</div>
+            <h3>Brain Dump</h3>
+            <p>10-min word flood + speaking dump. Shows what's actually in your head.</p>
+            <div class="module-meta">~25 min · Brutal</div>
+          </div>
+          <div class="module-card c-accent" onclick="nav('vocab')">
+            <div class="module-icon">🃏</div>
+            <h3>Flashcards</h3>
+            <p>A2 vocabulary with spaced repetition. Nouns with articles, verbs with conjugation.</p>
+            <div class="module-meta">Your pace · Daily</div>
+          </div>
+          <div class="module-card c-amber" onclick="nav('wordgame')">
+            <div class="module-icon">🎮</div>
+            <h3>Word Game</h3>
+            <p>Fast-fire translation game. Race the clock. Highest streak wins.</p>
+            <div class="module-meta">3–5 min · Addictive</div>
+          </div>
+          <div class="module-card c-red" onclick="nav('grammar')">
+            <div class="module-icon">⚡</div>
+            <h3>Grammar Quiz</h3>
+            <p>Cases, articles, verb forms, word order. No mercy.</p>
+            <div class="module-meta">10 q's · Core skills</div>
+          </div>
+          <div class="module-card c-green" onclick="nav('lessons')">
+            <div class="module-icon">📖</div>
+            <h3>Lessons</h3>
+            <p>Structured A2 lessons: cases, Perfekt, modal verbs, word order rules.</p>
+            <div class="module-meta">Self-paced · Deep</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── VOCAB ── -->
+    <div class="page" id="page-vocab">
+      <div class="topbar">
+        <div class="topbar-title">Flashcards</div>
+        <div class="xp-pill">⚡ <span id="vocab-xp">0</span> XP</div>
+      </div>
+      <div class="page-content">
+        <div class="tag-row">
+          <span class="tag active" onclick="setVocabFilter('all',this)">All</span>
+          <span class="tag" onclick="setVocabFilter('noun',this)">Nouns</span>
+          <span class="tag" onclick="setVocabFilter('verb',this)">Verbs</span>
+          <span class="tag" onclick="setVocabFilter('adjective',this)">Adjectives</span>
+          <span class="tag" onclick="setVocabFilter('phrase',this)">Phrases</span>
+        </div>
+        <div class="flashcard-wrap">
+          <div class="fc-progress-row">
+            <span id="fc-count">1/40</span>
+            <div class="fc-prog-track"><div class="fc-prog-fill" id="fc-prog" style="width:2%"></div></div>
+            <span id="fc-score">0 ✓</span>
+          </div>
+          <div class="flashcard" id="flashcard" onclick="revealCard()">
+            <div class="fc-category" id="fc-cat"></div>
+            <div class="fc-german" id="fc-german"></div>
+            <div class="fc-type" id="fc-type"></div>
+            <div class="fc-english" id="fc-english"></div>
+            <div class="fc-example" id="fc-example"></div>
+            <div class="fc-hint" id="fc-hint">tap to reveal</div>
+          </div>
+          <div class="fc-actions" id="fc-actions" style="display:none">
+            <button class="fc-btn wrong" onclick="gradeCard(false)">✗ Didn't know</button>
+            <button class="fc-btn correct" onclick="gradeCard(true)">✓ Got it</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LESSONS ── -->
+    <div class="page" id="page-lessons">
+      <div class="topbar"><div class="topbar-title">Lessons</div></div>
+      <div class="page-content">
+        <p style="font-size:14px;color:var(--gray-600);margin-bottom:20px">Structured A2 grammar lessons. Work through them in order — each one unlocks the next.</p>
+        <div class="lesson-list" id="lesson-list"></div>
+      </div>
+    </div>
+
+    <!-- ── LESSON DETAIL ── -->
+    <div class="page" id="page-lesson-detail">
+      <div class="topbar">
+        <button class="btn-secondary" onclick="nav('lessons')" style="font-size:13px;padding:8px 14px">← Back</button>
+        <div class="xp-pill">⚡ <span id="ld-xp">0</span> XP</div>
+      </div>
+      <div class="page-content" id="lesson-detail-content"></div>
+    </div>
+
+    <!-- ── WORD GAME ── -->
+    <div class="page" id="page-wordgame">
+      <div class="topbar">
+        <div class="topbar-title">Word Game</div>
+        <div class="xp-pill">🔥 Streak: <span id="wg-streak">0</span></div>
+      </div>
+      <div class="page-content">
+        <div id="wg-intro">
+          <div style="max-width:480px">
+            <h2 style="font-size:26px;font-weight:700;margin-bottom:10px">Translation Race</h2>
+            <p style="font-size:15px;color:var(--gray-600);margin-bottom:24px">German word appears. Type the English translation as fast as you can. 60 seconds. Build your streak. Every wrong answer breaks it.</p>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px">
+              <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);padding:16px;text-align:center">
+                <div style="font-size:24px;font-weight:700" id="wg-best">0</div>
+                <div style="font-size:12px;color:var(--gray-400)">Best streak</div>
+              </div>
+              <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);padding:16px;text-align:center">
+                <div style="font-size:24px;font-weight:700" id="wg-total-played">0</div>
+                <div style="font-size:12px;color:var(--gray-400)">Games played</div>
+              </div>
+              <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);padding:16px;text-align:center">
+                <div style="font-size:24px;font-weight:700" id="wg-accuracy">—</div>
+                <div style="font-size:12px;color:var(--gray-400)">Accuracy</div>
+              </div>
+            </div>
+            <button class="btn-primary full" onclick="startWordGame()">Start game →</button>
+          </div>
+        </div>
+        <div id="wg-game" style="display:none;max-width:560px">
+          <div class="timer-prog" style="margin-bottom:20px">
+            <div class="timer-prog-fill" id="wg-timer-bar" style="width:100%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:16px;font-size:14px;color:var(--gray-600)">
+            <span>⏱ <strong id="wg-time">60</strong>s</span>
+            <span>🔥 Streak: <strong id="wg-streak-live">0</strong></span>
+            <span>✓ <strong id="wg-correct-live">0</strong></span>
+          </div>
+          <div class="game-card">
+            <div class="game-prompt" id="wg-dir">German → English</div>
+            <div class="game-word" id="wg-word"></div>
+            <div class="game-hint" id="wg-hint"></div>
+          </div>
+          <div class="game-input-row">
+            <input class="game-input" id="wg-input" placeholder="Type translation..." autocomplete="off" onkeydown="wgKeydown(event)">
+            <button class="btn-primary" onclick="submitWG()">→</button>
+          </div>
+          <div id="wg-feedback" style="min-height:24px;font-size:14px;font-weight:500;text-align:center;margin-bottom:12px"></div>
+          <div style="display:flex;gap:8px">
+            <button class="btn-secondary" onclick="skipWG()">Skip this word</button>
+          </div>
+        </div>
+        <div id="wg-end" style="display:none;max-width:480px">
+          <div class="result-hero" style="margin-bottom:20px">
+            <div class="result-level" id="wg-final-streak"></div>
+            <div class="result-level-sub">Best streak this round</div>
+            <div class="result-scores">
+              <div class="rs-item"><div class="rs-num" id="wg-final-correct"></div><div class="rs-lbl">Correct</div></div>
+              <div class="rs-item"><div class="rs-num" id="wg-final-total"></div><div class="rs-lbl">Attempted</div></div>
+              <div class="rs-item"><div class="rs-num" id="wg-final-acc"></div><div class="rs-lbl">Accuracy</div></div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-primary" onclick="startWordGame()">Play again →</button>
+            <button class="btn-secondary" onclick="showWGIntro()">Back to menu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DIAGNOSTIC ── -->
+    <div class="page" id="page-diagnostic">
+      <div class="topbar"><div class="topbar-title">Full Diagnostic</div></div>
+      <div class="page-content" id="diag-content"></div>
+    </div>
+
+    <!-- ── BRAIN DUMP ── -->
+    <div class="page" id="page-braindump">
+      <div class="topbar"><div class="topbar-title">Brain Dump</div></div>
+      <div class="page-content" id="bd-content"></div>
+    </div>
+
+    <!-- ── SPEAKING ── -->
+    <div class="page" id="page-speaking">
+      <div class="topbar"><div class="topbar-title">Speaking Drill</div></div>
+      <div class="page-content" id="sp-content"></div>
+    </div>
+
+    <!-- ── GRAMMAR ── -->
+    <div class="page" id="page-grammar">
+      <div class="topbar">
+        <div class="topbar-title">Grammar Quiz</div>
+        <div class="xp-pill">⚡ <span id="gq-xp-disp">0</span> XP</div>
+      </div>
+      <div class="page-content" id="gq-content"></div>
+    </div>
+
+    <!-- ── LISTENING ── -->
+    <div class="page" id="page-listening">
+      <div class="topbar"><div class="topbar-title">Listening Drill</div></div>
+      <div class="page-content" id="lq-content"></div>
+    </div>
+
+  </main>
+</div>
+
+<div class="notification" id="notif"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
